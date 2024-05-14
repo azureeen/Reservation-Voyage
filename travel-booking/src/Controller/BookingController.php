@@ -30,6 +30,12 @@ class BookingController extends AbstractController
      */
     public function index(Request $request): Response
     {
+        // Check if user is authenticated
+        if (!$this->getUser()) {
+            // Redirect unauthenticated users to the login page
+            return $this->redirectToRoute('login');
+        }
+
         $booking = new Booking();
 
         // Call the randomUser method
