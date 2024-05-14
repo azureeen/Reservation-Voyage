@@ -24,9 +24,13 @@ class Booking
     private $travel;
 
     #[ORM\Column(type: "datetime")]
+    #[Assert\NotBlank(message: "Booking date cannot be empty.")]
+    #[Assert\Type("\DateTimeInterface", message: "Invalid date format.")]
+    #[Assert\FutureOrPresent(message: "The booking date must be in the future or today.")]
     private $bookingDate;
 
     #[ORM\Column(type: "string", length: 255)]
+    #[Assert\Choice(choices: ["pending", "confirmed", "cancelled"], message: "Choose a valid status.")]
     private $status;
 
     // Getters and setters...

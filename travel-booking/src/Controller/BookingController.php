@@ -40,6 +40,11 @@ class BookingController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            // Handle form errors
+            $errors = $form->getErrors(true);
+            foreach ($errors as $error) {
+                // Log or display the errors as needed
+            }
             $this->entityManager->persist($booking);
             $this->entityManager->flush();
 
