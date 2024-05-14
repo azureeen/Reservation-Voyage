@@ -1,0 +1,41 @@
+[User]
+|-> UserID (PK)
+|-> FirstName
+|-> LastName
+|-> Email
+|-> PasswordHash
+|-> DateOfBirth
+|-> PhoneNumber
+
+[Travel]
+|-> TravelID (PK)
+|-> Destination
+|-> DepartureLocation
+|-> StartDate
+|-> EndDate
+|-> Description
+|-> Price
+
+[Booking]
+|-> BookingID (PK)
+|-> UserID (FK to User)
+|-> TravelID (FK to Travel)
+|-> BookingDate
+|-> Status
+|-> PaymentStatus
+
+[Payment]
+|-> PaymentID (PK)
+|-> BookingID (FK to Booking)
+|-> Amount
+|-> PaymentDate
+|-> PaymentMethod
+|-> Status
+
+[Review]
+|-> ReviewID (PK)
+|-> TravelID (FK to Travel)
+|-> UserID (FK to User)
+|-> Rating
+|-> Comment
+|-> DatePosted
