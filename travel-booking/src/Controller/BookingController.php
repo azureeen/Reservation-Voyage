@@ -12,17 +12,20 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Security;
 
 class BookingController extends AbstractController
 {
     private $userRepository;
     private $entityManager;
+    private $security;
 
-    // Inject both UserRepository and EntityManagerInterface via the constructor
-    public function __construct(UserRepository $userRepository, EntityManagerInterface $entityManager)
+    // Inject both UserRepository, EntityManagerInterface, and Security via the constructor
+    public function __construct(UserRepository $userRepository, EntityManagerInterface $entityManager, Security $security)
     {
         $this->userRepository = $userRepository;
         $this->entityManager = $entityManager;
+        $this->security = $security;
     }
 
     /**
@@ -38,8 +41,8 @@ class BookingController extends AbstractController
 
         $booking = new Booking();
 
-        // Call the randomUser method
-        $user = $this->randomUser();
+        // Call the getAuthenticatedUser method
+        $user = $this->getAuthenticatedUser();
         $booking->setUser($user);
 
         $form = $this->createForm(BookingType::class, $booking);
@@ -62,18 +65,19 @@ class BookingController extends AbstractController
         ]);
     }
 
-    // Adjust randomUser method to use the entityManager property
-    public function randomUser()
+    /**
+     * Get the authenticated user.
+     *
+     * @return User|null The authenticated user or null if not authenticated
+     */
+    public function getAuthenticatedUser()
     {
-        $conn = $this->entityManager->getConnection();
-        $sql = 'SELECT * FROM users ORDER BY RAND() LIMIT 1';
-        $stmt = $conn->executeQuery($sql);
-        $userData = $stmt->fetchAssociative();
+        // Get the current user
+        $user = $this->security->getUser();
 
-        if (!$userData) {
-            return null;
+        // Check if a user is authenticated
+        if ($user) {
+            return $user->getUserIdentifier();
         }
-
-        return $this->entityManager->getRepository(User::class)->find($userData['id']);
     }
 }
