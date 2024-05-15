@@ -1,1 +1,1 @@
-web: cd symfony-app && heroku-php-apache2 public/
+web: cd travel-booking && heroku-php-apache2 public/
