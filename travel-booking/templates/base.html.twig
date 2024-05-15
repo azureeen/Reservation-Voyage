@@ -1,19 +1,43 @@
 <!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="UTF-8">
-        <title>{% block title %}Welcome!{% endblock %}</title>
-        <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>">
-        {# Run `composer require symfony/webpack-encore-bundle` to start using Symfony UX #}
-        {% block stylesheets %}
-            {{ encore_entry_link_tags('app') }}
-        {% endblock %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Welcome!{% endblock %}</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+    {% block stylesheets %}
+        {{ encore_entry_link_tags('app') }}
+    {% endblock %}
+</head>
+<body class="bg-gray-900 text-white">
+{% block header %}
+    <header class="bg-black text-gray-100 py-4 shadow-lg">
+        <div class="max-w-7xl mx-auto px-4 flex justify-between items-center">
+            <h1 class="text-xl font-bold">Luxury Travel</h1>
+            <nav>
+                <ul class="flex space-x-4">
+                    <li class="hover:text-gold-500"><a href="{{ path('home') }}">Home</a></li>
+                    <li class="hover:text-gold-500"><a href="#">Explore</a></li>
+                    <li class="hover:text-gold-500"><a href="#best-deals">Best Deals</a></li>
+                    <li class="hover:text-gold-500"><a href="#">Reviews</a></li>
+                    <li class="hover:text-gold-500"><a href="{{ path('logout') }}">Log out</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+{% endblock %}
 
-        {% block javascripts %}
-            {{ encore_entry_script_tags('app') }}
-        {% endblock %}
-    </head>
-    <body>
-        {% block body %}{% endblock %}
-    </body>
+<main>
+    {% block body %}{% endblock %}
+</main>
+
+<footer class="bg-black py-4 mt-8">
+    <p class="text-center text-sm">&copy; {{ 'now'|date('Y') }} Luxury Travel. All rights reserved.</p>
+</footer>
+
+{% block javascripts %}
+    {{ encore_entry_script_tags('app') }}
+{% endblock %}
+</body>
 </html>

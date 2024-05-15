@@ -10,4 +10,8 @@ logout:
     path: /logout
     controller: App\Controller\SecurityController::logout
 
+register:
+    path: /register
+    controller: App\Controller\RegistrationController::register
+
 # Define other routes for your application as needed

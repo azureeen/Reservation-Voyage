@@ -2,7 +2,7 @@ security:
     enable_authenticator_manager: true
     password_hashers:
         App\Entity\User:
-            algorithm: 'auto'  # Symfony selects the best available algorithm
+            algorithm: 'auto'
 
     providers:
         app_user_provider:
@@ -32,3 +32,4 @@ security:
     access_control:
         - { path: ^/admin, roles: ROLE_ADMIN }
         - { path: ^/profile, roles: ROLE_USER }
+

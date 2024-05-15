@@ -1,118 +1,93 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="https://cdn.tailwindcss.com"></script>
-    <title>Luxury Travel Website</title>
-</head>
-<body class="bg-gray-900 text-white">
-<header class="bg-black text-gray-100 py-4 shadow-lg">
-    <div class="max-w-7xl mx-auto px-4 flex justify-between items-center">
-        <h1 class="text-xl font-bold">Luxury Travel</h1>
-        <nav>
-            <ul class="flex space-x-4">
-                <li class="hover:text-gold-500">Home</li>
-                <li class="hover:text-gold-500">Explore</li>
-                <li class="hover:text-gold-500">Last Minute Deals</li>
-                <li class="hover:text-gold-500">Reviews</li>
-                <li class="hover:text-gold-500">Contact Us</li>
-            </ul>
-        </nav>
-    </div>
-</header>
+{% extends 'base.html.twig' %}
 
-<main>
-    <section class="bg-cover bg-center h-96" style="background-image: url({{ asset('images/skyscrapers.webp') }});">
-        <div class="max-w-7xl mx-auto px-4 flex items-center h-full">
-            <h2 class="text-3xl font-semibold">Discover the Night Life in Global Cities</h2>
-        </div>
-    </section>
+{% block title %}Luxury Travel Website{% endblock %}
 
-    <section class="max-w-7xl mx-auto px-4 py-6">
-        <div class="relative">
-            <input type="text" id="search" placeholder="Search for your next adventure..." class="w-full p-4 rounded-lg bg-gray-800 text-white placeholder-gray-500">
-            <svg xmlns="http://www.w3.org/2000/svg" class="absolute right-4 top-1/2 transform -translate-y-1/2 h-6 w-6 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 1114 0 7 7 0 01-14 0z" />
-            </svg>
-        </div>
-    </section>
+{% block body %}
+    <main>
+        <section class="bg-cover bg-center h-96" style="background-image: url({{ asset('images/skyscrapers.webp') }});">
+            <div class="max-w-7xl mx-auto px-4 flex items-center h-full">
+                <h2 class="text-3xl font-semibold">Discover the Night Life in Global Cities</h2>
+            </div>
+        </section>
 
-    <section id="most-popular" class="max-w-7xl mx-auto px-4 py-6">
-        <h2 class="text-lg font-semibold mb-4">The Most Populars</h2>
-        <div id="most-popular-destinations" class="grid grid-cols-3 gap-4">
-            {% for dest in most_popular_destinations %}
-                <div class="bg-black p-4 rounded-lg shadow-lg ">
-                    <img src="{{ dest.imagePath }}" alt="Destination image" class="rounded-t-lg">
-                    <div class="p-4">
-                        <h3 class="text-xl font-bold">{{ dest.destination }}</h3>
-                        <p class="text-gold-500">{{ dest.price }}</p>
+        <section class="max-w-7xl mx-auto px-4 py-6">
+            <div class="relative">
+                <input type="text" id="search" placeholder="Search for your next adventure..." class="w-full p-4 rounded-lg bg-gray-800 text-white placeholder-gray-500">
+                <svg xmlns="http://www.w3.org/2000/svg" class="absolute right-4 top-1/2 transform -translate-y-1/2 h-6 w-6 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 1114 0 7 7 0 01-14 0z" />
+                </svg>
+            </div>
+        </section>
+
+        <section id="most-popular" class="max-w-7xl mx-auto px-4 py-6">
+            <h2 class="text-lg font-semibold mb-4">The Most Populars</h2>
+            <div id="most-popular-destinations" class="grid grid-cols-3 gap-4">
+                {% for dest in most_popular_destinations %}
+                    <div class="bg-black p-4 rounded-lg shadow-lg ">
+                        <img src="{{ dest.imagePath }}" alt="Destination image" class="rounded-t-lg">
+                        <div class="p-4">
+                            <h3 class="text-xl font-bold">{{ dest.destination }}</h3>
+                            <p class="text-gold-500">{{ dest.price }}</p>
+                        </div>
                     </div>
-                </div>
-            {% endfor %}
-        </div>
-    </section>
+                {% endfor %}
+            </div>
+        </section>
 
-    <section class="max-w-7xl mx-auto px-4 py-6 hidden" id="all-travels-section">
-        <h2 class="text-lg font-semibold mb-4">All Travels</h2>
-        <div id="all-travels" class="grid grid-cols-3 gap-4">
-            {% for travel in all_travels %}
-                <div class="bg-black p-4 rounded-lg shadow-lg destination-item">
-                    <img src="{{ travel.imagePath }}" alt="Destination image" class="rounded-t-lg">
-                    <div class="p-4">
-                        <h3 class="text-xl font-bold">{{ travel.destination }}</h3>
-                        <p class="text-gold-500">{{ travel.price }}</p>
+        <section class="max-w-7xl mx-auto px-4 py-6 hidden" id="all-travels-section">
+            <h2 class="text-lg font-semibold mb-4">All Travels</h2>
+            <div id="all-travels" class="grid grid-cols-3 gap-4">
+                {% for travel in all_travels %}
+                    <div class="bg-black p-4 rounded-lg shadow-lg destination-item">
+                        <img src="{{ travel.imagePath }}" alt="Destination image" class="rounded-t-lg">
+                        <div class="p-4">
+                            <h3 class="text-xl font-bold">{{ travel.destination }}</h3>
+                            <p class="text-gold-500">{{ travel.price }}</p>
+                        </div>
                     </div>
-                </div>
-            {% endfor %}
-        </div>
-    </section>
+                {% endfor %}
+            </div>
+        </section>
 
-    <section class="max-w-7xl mx-auto px-4 py-6">
-        <h2 class="text-lg font-semibold">Our Best Deals</h2>
-        <div class="flex">
-            {% for deal in low_price_deals|slice(0, 5) %}
-                <div class="min-w-1/3 flex-shrink-0 p-4 bg-gray-800 m-2 rounded-lg">
-                    <p class="text-sm">{{ deal.destination }}</p>
-                    <div class="text-right text-gold-500 mt-2">
-                        - {{ deal.price }}
+        <section id="best-deals" class="max-w-7xl mx-auto px-4 py-6">
+            <h2 class="text-lg font-semibold">Our Best Deals</h2>
+            <div class="flex">
+                {% for deal in low_price_deals|slice(0, 5) %}
+                    <div class="min-w-1/3 flex-shrink-0 p-4 bg-gray-800 m-2 rounded-lg">
+                        <p class="text-sm">{{ deal.destination }}</p>
+                        <div class="text-right text-gold-500 mt-2">
+                            - {{ deal.price }}
+                        </div>
                     </div>
-                </div>
-            {% endfor %}
-        </div>
-    </section>
-</main>
+                {% endfor %}
+            </div>
+        </section>
+    </main>
 
-<footer class="bg-black py-4 mt-8">
-    <p class="text-center text-sm">&copy; {{ 'now'|date('Y') }} Luxury Travel. All rights reserved.</p>
-</footer>
+    <script>
+        document.getElementById('search').addEventListener('input', function() {
+            var filter = this.value.toLowerCase();
+            var destinations = document.querySelectorAll('.destination-item');
+            var allTravelsSection = document.getElementById('all-travels-section');
+            var mostPopular = document.getElementById('most-popular');
 
-<script>
-    document.getElementById('search').addEventListener('input', function() {
-        var filter = this.value.toLowerCase();
-        var destinations = document.querySelectorAll('.destination-item');
-        var allTravelsSection = document.getElementById('all-travels-section');
-        var mostPopular = document.getElementById('most-popular');
-
-
-        // Show or hide the "All Travels" section based on the input
-        if (filter.length > 0) {
-            allTravelsSection.classList.remove('hidden');
-            mostPopular.classList.add('hidden');
-        } else {
-            allTravelsSection.classList.add('hidden');
-            mostPopular.classList.remove('hidden');
-        }
-
-        destinations.forEach(function(destination) {
-            var text = destination.textContent.toLowerCase();
-            if (text.includes(filter)) {
-                destination.style.display = '';
+            // Show or hide the "All Travels" section based on the input
+            if (filter.length > 0) {
+                allTravelsSection.classList.remove('hidden');
+                mostPopular.classList.add('hidden');
             } else {
-                destination.style.display = 'none';
+                allTravelsSection.classList.add('hidden');
+                mostPopular.classList.remove('hidden');
             }
+
+            destinations.forEach(function(destination) {
+                var text = destination.textContent.toLowerCase();
+                if (text.includes(filter)) {
+                    destination.style.display = '';
+                } else {
+                    destination.style.display = 'none';
+                }
+            });
         });
-    });
-</script>
-</body>
-</html>
+    </script>
+{% endblock %}

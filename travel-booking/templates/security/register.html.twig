@@ -1,0 +1,49 @@
+{# templates/registration/register.html.twig #}
+{% extends 'base.html.twig' %}
+
+{% block title %}Sign Up{% endblock %}
+
+{% block header %}{% endblock %} {# Override the header block to exclude it #}
+
+{% block body %}
+    <div class="min-h-screen flex items-center justify-center bg-gray-900 text-white">
+        <div class="bg-black p-8 rounded-lg shadow-lg w-full max-w-md">
+            <h1 class="text-2xl font-semibold mb-6">Sign Up</h1>
+
+            {{ form_start(registrationForm) }}
+            <div class="mb-4">
+                {{ form_label(registrationForm.email, 'Email', {'label_attr': {'class': 'block mb-2'}}) }}
+                {{ form_widget(registrationForm.email, {'attr': {'class': 'w-full p-3 rounded bg-gray-800 text-white placeholder-gray-500'}}) }}
+                {{ form_errors(registrationForm.email) }}
+            </div>
+            <div class="mb-4">
+                {{ form_label(registrationForm.firstName, 'First Name', {'label_attr': {'class': 'block mb-2'}}) }}
+                {{ form_widget(registrationForm.firstName, {'attr': {'class': 'w-full p-3 rounded bg-gray-800 text-white placeholder-gray-500'}}) }}
+                {{ form_errors(registrationForm.firstName) }}
+            </div>
+            <div class="mb-4">
+                {{ form_label(registrationForm.lastName, 'Last Name', {'label_attr': {'class': 'block mb-2'}}) }}
+                {{ form_widget(registrationForm.lastName, {'attr': {'class': 'w-full p-3 rounded bg-gray-800 text-white placeholder-gray-500'}}) }}
+                {{ form_errors(registrationForm.lastName) }}
+            </div>
+            <div class="mb-4">
+                {{ form_label(registrationForm.plainPassword.first, 'Password', {'label_attr': {'class': 'block mb-2'}}) }}
+                {{ form_widget(registrationForm.plainPassword.first, {'attr': {'class': 'w-full p-3 rounded bg-gray-800 text-white placeholder-gray-500'}}) }}
+                {{ form_errors(registrationForm.plainPassword.first) }}
+            </div>
+            <div class="mb-6">
+                {{ form_label(registrationForm.plainPassword.second, 'Repeat Password', {'label_attr': {'class': 'block mb-2'}}) }}
+                {{ form_widget(registrationForm.plainPassword.second, {'attr': {'class': 'w-full p-3 rounded bg-gray-800 text-white placeholder-gray-500'}}) }}
+                {{ form_errors(registrationForm.plainPassword.second) }}
+            </div>
+            <button class="w-full p-3 bg-blue-500 text-white rounded hover:bg-blue-600" type="submit">
+                Sign Up
+            </button>
+            {{ form_end(registrationForm) }}
+
+            <div class="mt-6 text-center">
+                <p class="text-sm">Already have an account? <a href="{{ path('login') }}" class="text-blue-500 hover:text-blue-600">Sign in</a></p>
+            </div>
+        </div>
+    </div>
+{% endblock %}
