@@ -1,6 +1,5 @@
 <?php
 
-// src/Controller/BookingController.php
 namespace App\Controller;
 
 use App\Entity\Booking;
@@ -14,19 +13,22 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Security;
+use Psr\Log\LoggerInterface;
 
 class BookingController extends AbstractController
 {
     private $userRepository;
     private $entityManager;
     private $security;
+    private $logger;
 
-    // Inject both UserRepository, EntityManagerInterface, and Security via the constructor
-    public function __construct(UserRepository $userRepository, EntityManagerInterface $entityManager, Security $security)
+    // Inject UserRepository, EntityManagerInterface, Security, and LoggerInterface via the constructor
+    public function __construct(UserRepository $userRepository, EntityManagerInterface $entityManager, Security $security, LoggerInterface $logger)
     {
         $this->userRepository = $userRepository;
         $this->entityManager = $entityManager;
         $this->security = $security;
+        $this->logger = $logger;
     }
 
     /**
@@ -50,13 +52,17 @@ class BookingController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            // Handle form errors
-            $errors = $form->getErrors(true);
-            foreach ($errors as $error) {
-                // Log or display the errors as needed
+            try {
+                $this->entityManager->persist($booking);
+                $this->entityManager->flush();
+            } catch (\Exception $e) {
+                // Log detailed error for developers/administrators
+                $this->logger->error('Error persisting booking: ' . $e->getMessage());
+
+                // Display a generic error message to the user
+                $this->addFlash('error', 'An error occurred while processing your booking. Please try again later.');
+                return $this->redirectToRoute('home');
             }
-            $this->entityManager->persist($booking);
-            $this->entityManager->flush();
 
             return $this->redirectToRoute('home');
         }
@@ -89,10 +95,10 @@ class BookingController extends AbstractController
         $user = $this->security->getUser();
 
         // Check if a user is authenticated
-        if ($user) {
-            return ($user);
+        if ($user instanceof User) {
+            return $user;
         }
 
-
+        return null;
     }
 }
