@@ -1,6 +1,0 @@
-[build]
-  publish = "public"
-  command = "composer install && yarn install && yarn encore production"
-
-[build.environment]
-  PHP_VERSION = "8.3.6"
