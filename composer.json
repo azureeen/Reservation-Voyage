@@ -1,6 +1,6 @@
 {
   "scripts": {
-    "heroku-prebuild": "cd travel-booking && composer install && yarn install",
-    "heroku-postbuild": "cd travel-booking && php bin/console cache:clear"
+    "heroku-prebuild": "composer install && yarn install",
+    "heroku-postbuild": "php bin/console cache:clear"
   }
 }
