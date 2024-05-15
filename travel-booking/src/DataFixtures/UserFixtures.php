@@ -18,27 +18,31 @@ class UserFixtures extends Fixture
 
     public function load(ObjectManager $manager)
     {
-        $user1 = new User();
-        $user1->setEmail('user1@example.com');
-        $user1->setPassword($this->passwordHasher->hashPassword($user1, 'password123'));
-        $user1->setFirstName('John');
-        $user1->setLastName('Doe');
-        // Add other fields and method calls as necessary
+        $users = [
+            ['user1@example.com', 'ComplexPass!123', 'John', 'Doe'],
+            ['user2@example.com', 'StrongPassword#456', 'Jane', 'Doe'],
+            ['user3@example.com', 'SecurePass$789', 'Alice', 'Smith'],
+            ['user4@example.com', 'Password!234', 'Bob', 'Johnson'],
+            ['user5@example.com', 'Pass@word345', 'Charlie', 'Brown'],
+            ['user6@example.com', 'Password#456', 'David', 'Williams'],
+            ['user7@example.com', 'Secure!Pass789', 'Eve', 'Davis'],
+            ['user8@example.com', 'Strong#Pass123', 'Frank', 'Garcia'],
+            ['user9@example.com', 'Complex$Pass234', 'Grace', 'Martinez'],
+            ['user10@example.com', 'Secure!Password456', 'Hannah', 'Lopez']
+        ];
 
-        $manager->persist($user1);
+        foreach ($users as $i => $userData) {
+            $user = new User();
+            $user->setEmail($userData[0]);
+            $user->setPassword($this->passwordHasher->hashPassword($user, $userData[1]));
+            $user->setFirstName($userData[2]);
+            $user->setLastName($userData[3]);
 
-        $user2 = new User();
-        $user2->setEmail('user2@example.com');
-        $user2->setPassword($this->passwordHasher->hashPassword($user2, 'password123'));
-        $user2->setFirstName('Jane');
-        $user2->setLastName('Doe');
-        // Add other fields and method calls as necessary
-
-        $manager->persist($user2);
-
-        // You can create more users similarly
+            $manager->persist($user);
+            // Add a reference to use in BookingFixtures
+            $this->addReference('user_' . $i, $user);
+        }
 
         $manager->flush();
     }
 }
-

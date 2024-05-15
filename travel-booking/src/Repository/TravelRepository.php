@@ -48,4 +48,28 @@ class TravelRepository extends ServiceEntityRepository
 
         return $qb->getQuery()->getResult();
     }
+
+    public function findLowPriceDeals($limit = 5)
+    {
+        // Implement logic to find low price deals
+        // For example:
+        return $this->createQueryBuilder('t')
+            ->orderBy('t.price', 'ASC')
+            ->setMaxResults($limit)
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function findMostPopularDestinations($limit = 5)
+    {
+        // Implement logic to find most popular destinations
+        return $this->createQueryBuilder('t')
+            ->select('t.destination', 't.departureLocation', 't.startDate', 't.endDate', 't.description', 't.price', 't.imagePath',
+                '(SELECT COUNT(b.id) FROM App\Entity\Booking b WHERE b.travel = t.id) AS bookingCount')
+            ->orderBy('bookingCount', 'DESC')
+            ->setMaxResults($limit)
+            ->getQuery()
+            ->getResult();
+    }
+
 }

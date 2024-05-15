@@ -31,6 +31,10 @@ class Travel
     #[ORM\Column(type: "decimal", scale: 2)]
     private $price;
 
+    #[ORM\Column(type: "string", length: 255, nullable: true)]
+    private $imagePath;
+
+
     // Getters and setters...
 
     public function getId(): ?int
@@ -103,4 +107,16 @@ class Travel
         $this->price = $price;
         return $this;
     }
+
+    public function getImagePath(): ?string
+    {
+        return $this->imagePath;
+    }
+
+    public function setImagePath(?string $imagePath): self
+    {
+        $this->imagePath = $imagePath;
+        return $this;
+    }
+
 }

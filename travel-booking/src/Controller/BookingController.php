@@ -7,6 +7,7 @@ use App\Entity\Booking;
 use App\Entity\User;
 use App\Form\BookingType;
 use App\Repository\UserRepository;
+use App\Repository\TravelRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -31,7 +32,7 @@ class BookingController extends AbstractController
     /**
      * @Route("/", name="home")
      */
-    public function index(Request $request): Response
+    public function index(Request $request, TravelRepository $travelRepository): Response
     {
         // Check if user is authenticated
         if (!$this->getUser()) {
@@ -60,7 +61,19 @@ class BookingController extends AbstractController
             return $this->redirectToRoute('home');
         }
 
+        // Fetch low price deals
+        $lowPriceDeals = $travelRepository->findLowPriceDeals();
+
+        // Fetch most popular destinations
+        $mostPopularDestinations = $travelRepository->findMostPopularDestinations();
+
+        // Fetch all destinations
+        $allTravels = $travelRepository->findAllTravels();
+
         return $this->render('booking/index.html.twig', [
+            'low_price_deals' => $lowPriceDeals,
+            'most_popular_destinations' => $mostPopularDestinations,
+            'all_travels' => $allTravels,
             'form' => $form->createView(),
         ]);
     }
@@ -77,7 +90,9 @@ class BookingController extends AbstractController
 
         // Check if a user is authenticated
         if ($user) {
-            return $user->getUserIdentifier();
+            return ($user);
         }
+
+
     }
 }
