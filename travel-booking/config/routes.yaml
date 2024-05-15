@@ -4,14 +4,14 @@ controllers:
 
 login:
     path: /login
-    controller: App\Controller\SecurityController::login
+    controller: App\Controller\AuthenticationController::login
 
 logout:
     path: /logout
-    controller: App\Controller\SecurityController::logout
+    controller: App\Controller\AuthenticationController::logout
 
 register:
     path: /register
-    controller: App\Controller\RegistrationController::register
+    controller: App\Controller\AuthenticationController::register
 
 # Define other routes for your application as needed
