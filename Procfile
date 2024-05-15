@@ -1,1 +1,1 @@
-web: php -S 0.0.0.0:8000 -t travel-booking/public
+web: heroku-php-apache2 travel-booking/public/
