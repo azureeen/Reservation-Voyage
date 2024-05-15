@@ -17,9 +17,9 @@ L'application intègre des mesures de sécurité robustes dès la conception, in
 - Prévention des injections SQL et des attaques XSS.
 
 ## Technologies Utilisées
-- **Frontend** : Vue.js
+- **Frontend** : Twig
 - **Backend** : Symfony, PHP
-- **Base de données** : MySQL
+- **Base de données** : MySQL,MariaDB
 - **Tests** : PHPUnit pour les tests automatisés
 - **CI/CD** : GitHub Actions pour l'intégration et la livraison continues
 
