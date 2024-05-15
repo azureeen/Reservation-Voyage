@@ -1,6 +1,0 @@
-{
-  "scripts": {
-    "heroku-prebuild": "composer install && yarn install",
-    "heroku-postbuild": "php bin/console cache:clear"
-  }
-}
