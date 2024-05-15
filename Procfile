@@ -1,1 +1,1 @@
-web: cd travel-booking && heroku-php-apache2 public/
+web: php -S 0.0.0.0:8000 -t public
