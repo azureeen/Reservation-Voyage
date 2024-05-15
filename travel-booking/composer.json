@@ -97,7 +97,9 @@
         ],
         "post-update-cmd": [
             "@auto-scripts"
-        ]
+        ],
+        "heroku-prebuild": "cd travel-booking && composer install && yarn install && yarn encore production",
+        "heroku-postbuild": "cd travel-booking && php bin/console cache:clear"
     },
     "conflict": {
         "symfony/symfony": "*"
