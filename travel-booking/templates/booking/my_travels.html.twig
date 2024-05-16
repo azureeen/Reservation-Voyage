@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}My Booked Travels{% endblock %}
+
+{% block body %}
+    <main class="pt-24 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div class="flex justify-between items-center py-4">
+            <h1 class="text-3xl font-semibold mb-6">My Booked Travels</h1>
+            <a href="{{ path('home') }}" class="text-amber-100 hover:text-blue-700">Back to Menu</a>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {% for booking in bookings %}
+                <div class="bg-white rounded-lg shadow-lg p-4">
+                    <img src="{{ asset(booking.travel.imagePath) }}" alt="{{ booking.travel.destination }}" class="rounded-lg mb-3 w-full h-48 object-cover">
+                    <h2 class="font-bold text-gray-800 text-xl mb-2">{{ booking.travel.destination }}</h2>
+                    <p class="text-gray-600 mb-2">{{ booking.travel.description }}</p>
+                    <p class="text-gray-600 mb-2">Booked Date: {{ booking.bookingDate|date('Y-m-d') }}</p>
+                    <p class="text-gray-600 mb-2">Status:
+                        {% if booking.status == 'pending' %}
+                            <strong class="text-orange-500">{{ booking.status|capitalize }}</strong>
+                        {% elseif booking.status == 'confirmed' %}
+                            <strong class="text-green-500">{{ booking.status|capitalize }}</strong>
+                        {% elseif booking.status == 'cancelled' %}
+                            <strong class="text-red-500">{{ booking.status|capitalize }}</strong>
+                        {% else %}
+                            <strong class="text-gray-500">{{ booking.status|capitalize }}</strong>
+                        {% endif %}
+                    </p>
+                </div>
+            {% else %}
+                <p class="text-gray-500">You have no booked travels.</p>
+            {% endfor %}
+        </div>
+    </main>
+{% endblock %}

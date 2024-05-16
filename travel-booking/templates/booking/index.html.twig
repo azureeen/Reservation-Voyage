@@ -11,21 +11,21 @@
         </section>
 
         <section class="max-w-7xl mx-auto px-4 py-6">
-            <input type="text" id="search" placeholder="Search for your next adventure..." class="w-full p-4 rounded-lg bg-gray-800 text-white placeholder-gray-500 search-input">
+            <input type="text" id="search" placeholder="Search for your next adventure..." class="w-full p-4 rounded-lg bg-gray-800 text-white border border-gray-500 placeholder-gray-500 search-input">
         </section>
-
-
 
         <section id="most-popular" class="max-w-7xl mx-auto px-4 py-6">
             <h2 class="text-lg font-semibold mb-4">The Most Populars</h2>
             <div id="most-popular-destinations" class="grid grid-cols-3 gap-4">
                 {% for dest in most_popular_destinations %}
-                    <div class="bg-black p-4 rounded-lg shadow-lg ">
+                    <div class="bg-black p-4 rounded-lg shadow-lg">
                         <img src="{{ dest.imagePath }}" alt="Destination image" class="rounded-t-lg">
-                        <div class="p-4">
-                            <h3 class="text-xl font-bold">{{ dest.destination }}</h3>
-                            <p class="text-gold-500">{{ dest.price }}</p>
-                            <a href="{{ path('view_travel', {'id': dest.id}) }}">Voir</a>
+                        <div class="p-4 flex items-center justify-between">
+                            <div>
+                                <h3 class="text-xl font-bold">{{ dest.destination }}</h3>
+                                <p class="text-gold-500">{{ dest.price }}</p>
+                            </div>
+                            <a href="{{ path('view_travel', {'id': dest.id}) }}" class="btn">Voir</a>
                         </div>
                     </div>
                 {% endfor %}
@@ -38,10 +38,12 @@
                 {% for travel in all_travels %}
                     <div class="bg-black p-4 rounded-lg shadow-lg destination-item">
                         <img src="{{ travel.imagePath }}" alt="Destination image" class="rounded-t-lg">
-                        <div class="p-4">
-                            <h3 class="text-xl font-bold">{{ travel.destination }}</h3>
-                            <p class="text-gold-500">{{ travel.price }}</p>
-                            <a href="{{ path('view_travel', {'id': travel.id}) }}">Voir</a>
+                        <div class="p-4 flex items-center justify-between">
+                            <div>
+                                <h3 class="text-xl font-bold">{{ travel.destination }}</h3>
+                                <p class="text-gold-500">{{ travel.price }}</p>
+                            </div>
+                            <a href="{{ path('view_travel', {'id': travel.id}) }}" class="btn">Voir</a>
                         </div>
                     </div>
                 {% endfor %}
@@ -62,6 +64,34 @@
             </div>
         </section>
     </main>
+
+    <style>
+        .btn {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            margin-left: 1rem;
+            font-size: 1rem;
+            font-weight: bold;
+            text-align: center;
+            color: black;
+            background-color: white;
+            border: 2px solid white;
+            border-radius: 0.25rem;
+            text-decoration: none;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .btn:hover {
+            background-color: white;
+            color: black;
+        }
+
+        .search-input {
+            background: url("data:image/svg+xml,%3Csvg width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%23999999' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='11' cy='11' r='7' stroke-width='2'%3E%3C/circle%3E%3Cline x1='16' y1='16' x2='22' y2='22' stroke-width='2' stroke-linecap='round'%3E%3C/line%3E%3C/svg%3E") no-repeat right 0.8rem center / 16px 16px;
+            padding-right: 2.5rem; /* Ensure padding on the right to not overlap text with the icon */
+            appearance: none; /* Removes default styles for inputs on some browsers */
+        }
+    </style>
 
     <script>
         document.getElementById('search').addEventListener('input', function() {

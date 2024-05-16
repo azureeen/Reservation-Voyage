@@ -21,4 +21,8 @@ view_travel:
     requirements:
         id: '\d+'
 
+my_travels:
+    path: /my_travels
+    controller: App\Controller\BookingController::myTravels
+
 # Define other routes for your application as needed

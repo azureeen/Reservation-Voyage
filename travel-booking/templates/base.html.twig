@@ -3,8 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>{% block title %}Welcome!{% endblock %}</title>
-    <link rel="icon"
-          href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://cdn.tailwindcss.com"></script>
     {% block stylesheets %}
@@ -18,10 +17,6 @@
 
         .flash-effect {
             animation: flash 1s;
-        }
-
-        #search {
-            border: 2px solid transparent; /* Ensures the border is present and transitions smoothly */
         }
 
         .search-input {
@@ -38,6 +33,28 @@
         svg.user-icon:hover {
             transform: scale(1.1); /* Slightly enlarges the icon on hover for interactive feedback */
         }
+
+        /* New styles to ensure footer sticks to the bottom */
+        html, body {
+            height: 100%;
+            margin: 0;
+        }
+
+        body {
+            display: flex;
+            flex-direction: column;
+        }
+
+        main {
+            flex: 1; /* Ensures that main takes up all available space */
+        }
+
+        footer {
+            background-color: #000;
+            padding: 1rem 0;
+            margin-top: auto;
+            text-align: center;
+        }
     </style>
 </head>
 <body class="bg-gray-900 text-white">
@@ -48,8 +65,8 @@
             <nav>
                 <ul class="flex space-x-4 items-center">
                     <li class="hover:text-gold-500"><a href="{{ path('home') }}">Home</a></li>
-                    <li id="explore-tab" class="hover:text-gold-500"><a href="#">Explore</a></li>
-                    <li class="hover:text-gold-500"><a href="#best-deals">Best Deals</a></li>
+                    <li id="explore-tab" class="hover:text-gold-500"><a href="{{ path('home') }}">Explore</a></li>
+                    <li class="hover:text-gold-500"><a href="{{ path('home') }}#best-deals">Best Deals</a></li>
                     <!-- Profile icon -->
                     {% if is_granted('IS_AUTHENTICATED_FULLY') %}
                         <li class="relative">
@@ -61,7 +78,7 @@
                             <div id="profile-dropdown" class="absolute right-0 mt-2 w-48 bg-gray-800 text-white rounded-lg shadow-lg hidden">
                                 <ul class="py-1">
                                     <li class="block px-4 py-2 text-sm text-gray-300">{{ app.user.firstName ~ ' ' ~ app.user.lastName }}</li>
-                                    <li class="block px-4 py-2 text-sm hover:bg-gray-700"><a href="#">My travels</a></li>
+                                    <li class="block px-4 py-2 text-sm hover:bg-gray-700"><a href="{{ path('my_travels') }}">My travels</a></li>
                                     <li class="block px-4 py-2 text-sm hover:bg-gray-700"><a href="#">Settings</a></li>
                                     <li class="block px-4 py-2 text-sm hover:bg-gray-700"><a href="{{ path('logout') }}">Log out</a></li>
                                 </ul>
@@ -79,9 +96,9 @@
 </main>
 
 {% block footer %}
-<footer class="bg-black py-4 mt-8">
-    <p class="text-center text-sm">&copy; {{ 'now'|date('Y') }} Luxury Travel. All rights reserved.</p>
-</footer>
+    <footer class="bg-black py-4 mt-8">
+        <p class="text-center text-sm">&copy; {{ 'now'|date('Y') }} Luxury Travel. All rights reserved.</p>
+    </footer>
 {% endblock %}
 
 {% block javascripts %}

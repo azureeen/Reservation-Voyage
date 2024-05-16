@@ -11,7 +11,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;  // Remove or replace this line with use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Security;
 use Psr\Log\LoggerInterface;
 
@@ -73,8 +73,6 @@ class BookingController extends AbstractController
         ]);
     }
 
-    // In BookingController
-
     #[Route('/travel/{id}', name: 'view_travel', methods: ['GET', 'POST'])]
     public function viewTravel(Request $request, TravelRepository $travelRepository, int $id): Response
     {
@@ -83,8 +81,27 @@ class BookingController extends AbstractController
             throw $this->createNotFoundException('The travel does not exist');
         }
 
+        $user = $this->getUser();
+        if (!$user) {
+            return $this->redirectToRoute('login');
+        }
+
+        // Check if the user has already booked this travel
+        $existingBooking = $this->entityManager->getRepository(Booking::class)->findOneBy([
+            'user' => $user,
+            'travel' => $travel,
+        ]);
+
+        if ($existingBooking) {
+            $this->addFlash('error', 'You have already booked this travel.');
+            return $this->render('booking/view.html.twig', [
+                'travel' => $travel,
+                'form' => $this->createForm(BookingType::class)->createView(),
+            ]);
+        }
+
         $booking = new Booking();
-        $booking->setUser($this->getUser());
+        $booking->setUser($user);
         $booking->setTravel($travel);
         $booking->setBookingDate(new \DateTime()); // Set the booking date to now
         $booking->setStatus('pending'); // Set the initial status
@@ -120,7 +137,6 @@ class BookingController extends AbstractController
             'bookings' => $bookings
         ]);
     }
-
 
     private function getAuthenticatedUser()
     {

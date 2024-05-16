@@ -1,0 +1,36 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Book Travel - {{ travel.destination }}{% endblock %}
+
+{% block body %}
+    <main class="max-w-7xl mx-auto px-4 py-20">
+        <div class="flex justify-between items-center py-4">
+            <h1 class="text-3xl font-semibold">{{ travel.destination }}</h1>
+            <a href="{{ path('home') }}" class="text-amber-100 hover:text-blue-700">Back to Menu</a>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+                <img src="{{ asset(travel.imagePath) }}" alt="Image of {{ travel.destination }}" class="rounded-lg shadow-md" style="width: 100%; height: auto;">
+            </div>
+            <div>
+                <p class="text-lg">{{ travel.description }}</p>
+                <p class="text-gold-500 text-xl">Price: {{ travel.price | number_format(2) }}</p>
+                <p class="text-gray-400">Departure: {{ travel.departureLocation }}</p>
+                <p class="text-gray-400">Start Date: {{ travel.startDate|date('Y-m-d') }}</p>
+                <p class="text-gray-400">End Date: {{ travel.endDate|date('Y-m-d') }}</p>
+                {{ form_start(form, {'action': path('view_travel', {'id': travel.id}), 'method': 'post'}) }}
+                <input type="hidden" name="travel_id" value="{{ travel.id }}">
+                {{ form_widget(form._token) }}  <!-- Include CSRF protection token -->
+                <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onclick="confirmBooking()">
+                    Book Now
+                </button>
+                {{ form_end(form) }}
+            </div>
+        </div>
+    </main>
+    <script>
+        function confirmBooking() {
+            return confirm('Are you sure you want to book this travel?');
+        }
+    </script>
+{% endblock %}
