@@ -24,6 +24,12 @@
             border: 2px solid transparent; /* Ensures the border is present and transitions smoothly */
         }
 
+        .search-input {
+            background: url("data:image/svg+xml,%3Csvg width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%23999999' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='11' cy='11' r='7' stroke-width='2'%3E%3C/circle%3E%3Cline x1='16' y1='16' x2='22' y2='22' stroke-width='2' stroke-linecap='round'%3E%3C/line%3E%3C/svg%3E") no-repeat right 0.8rem center / 16px 16px;
+            padding-right: 2.5rem; /* Ensure padding on the right to not overlap text with the icon */
+            appearance: none; /* Removes default styles for inputs on some browsers */
+        }
+
         svg.user-icon {
             stroke: #F9E4BC; /* A luxury gold color */
             transition: transform 0.2s ease-in-out;
