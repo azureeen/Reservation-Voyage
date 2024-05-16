@@ -25,6 +25,7 @@
                         <div class="p-4">
                             <h3 class="text-xl font-bold">{{ dest.destination }}</h3>
                             <p class="text-gold-500">{{ dest.price }}</p>
+                            <a href="{{ path('view_travel', {'id': dest.id}) }}">Voir</a>
                         </div>
                     </div>
                 {% endfor %}
@@ -40,6 +41,7 @@
                         <div class="p-4">
                             <h3 class="text-xl font-bold">{{ travel.destination }}</h3>
                             <p class="text-gold-500">{{ travel.price }}</p>
+                            <a href="{{ path('view_travel', {'id': travel.id}) }}">Voir</a>
                         </div>
                     </div>
                 {% endfor %}
@@ -50,12 +52,12 @@
             <h2 class="text-lg font-semibold">Our Best Deals</h2>
             <div class="flex">
                 {% for deal in low_price_deals|slice(0, 5) %}
-                    <div class="min-w-1/3 flex-shrink-0 p-4 bg-gray-800 m-2 rounded-lg">
+                    <a href="{{ path('view_travel', {'id': deal.id}) }}" class="min-w-1/3 flex-shrink-0 p-4 bg-gray-800 m-2 rounded-lg">
                         <p class="text-sm">{{ deal.destination }}</p>
                         <div class="text-right text-gold-500 mt-2">
                             - {{ deal.price }}
                         </div>
-                    </div>
+                    </a>
                 {% endfor %}
             </div>
         </section>

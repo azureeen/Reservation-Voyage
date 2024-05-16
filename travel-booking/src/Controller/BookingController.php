@@ -11,7 +11,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Annotation\Route;  // Remove or replace this line with use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Core\Security;
 use Psr\Log\LoggerInterface;
 
@@ -22,29 +22,26 @@ class BookingController extends AbstractController
     private $security;
     private $logger;
 
-    // Inject UserRepository, EntityManagerInterface, Security, and LoggerInterface via the constructor
-    public function __construct(UserRepository $userRepository, EntityManagerInterface $entityManager, Security $security, LoggerInterface $logger)
-    {
+    public function __construct(
+        UserRepository $userRepository,
+        EntityManagerInterface $entityManager,
+        Security $security,
+        LoggerInterface $logger
+    ) {
         $this->userRepository = $userRepository;
         $this->entityManager = $entityManager;
         $this->security = $security;
         $this->logger = $logger;
     }
 
-    /**
-     * @Route("/", name="home")
-     */
+    #[Route('/', name: 'home')]
     public function index(Request $request, TravelRepository $travelRepository): Response
     {
-        // Check if user is authenticated
         if (!$this->getUser()) {
-            // Redirect unauthenticated users to the login page
             return $this->redirectToRoute('login');
         }
 
         $booking = new Booking();
-
-        // Call the getAuthenticatedUser method
         $user = $this->getAuthenticatedUser();
         $booking->setUser($user);
 
@@ -56,10 +53,7 @@ class BookingController extends AbstractController
                 $this->entityManager->persist($booking);
                 $this->entityManager->flush();
             } catch (\Exception $e) {
-                // Log detailed error for developers/administrators
                 $this->logger->error('Error persisting booking: ' . $e->getMessage());
-
-                // Display a generic error message to the user
                 $this->addFlash('error', 'An error occurred while processing your booking. Please try again later.');
                 return $this->redirectToRoute('home');
             }
@@ -67,13 +61,8 @@ class BookingController extends AbstractController
             return $this->redirectToRoute('home');
         }
 
-        // Fetch low price deals
         $lowPriceDeals = $travelRepository->findLowPriceDeals();
-
-        // Fetch most popular destinations
         $mostPopularDestinations = $travelRepository->findMostPopularDestinations();
-
-        // Fetch all destinations
         $allTravels = $travelRepository->findAllTravels();
 
         return $this->render('booking/index.html.twig', [
@@ -84,21 +73,61 @@ class BookingController extends AbstractController
         ]);
     }
 
-    /**
-     * Get the authenticated user.
-     *
-     * @return User|null The authenticated user or null if not authenticated
-     */
-    public function getAuthenticatedUser()
-    {
-        // Get the current user
-        $user = $this->security->getUser();
+    // In BookingController
 
-        // Check if a user is authenticated
+    #[Route('/travel/{id}', name: 'view_travel', methods: ['GET', 'POST'])]
+    public function viewTravel(Request $request, TravelRepository $travelRepository, int $id): Response
+    {
+        $travel = $travelRepository->findTravelById($id);
+        if (!$travel) {
+            throw $this->createNotFoundException('The travel does not exist');
+        }
+
+        $booking = new Booking();
+        $booking->setUser($this->getUser());
+        $booking->setTravel($travel);
+        $booking->setBookingDate(new \DateTime()); // Set the booking date to now
+        $booking->setStatus('pending'); // Set the initial status
+
+        $form = $this->createForm(BookingType::class, $booking);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $this->entityManager->persist($booking);
+            $this->entityManager->flush();
+            $this->addFlash('success', 'Travel booked successfully!');
+            return $this->redirectToRoute('home');
+        }
+
+        return $this->render('booking/view.html.twig', [
+            'travel' => $travel,
+            'form' => $form->createView(),
+        ]);
+    }
+
+    #[Route('/my-travels', name: 'my_travels')]
+    public function myTravels(): Response
+    {
+        $user = $this->getUser();  // Ensure you have a method to get the authenticated user
+
+        if (!$user) {
+            return $this->redirectToRoute('login');
+        }
+
+        $bookings = $this->entityManager->getRepository(Booking::class)->findBy(['user' => $user]);
+
+        return $this->render('booking/my_travels.html.twig', [
+            'bookings' => $bookings
+        ]);
+    }
+
+
+    private function getAuthenticatedUser()
+    {
+        $user = $this->security->getUser();
         if ($user instanceof User) {
             return $user;
         }
-
         return null;
     }
 }

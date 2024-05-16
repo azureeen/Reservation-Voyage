@@ -34,6 +34,14 @@ class TravelRepository extends ServiceEntityRepository
     }
 
     /**
+     * @return Travel|null Finds a single Travel by the given id
+     */
+    public function findTravelById($id) {
+        return $this->findOneBy(['id' => $id]);
+    }
+
+
+    /**
      * Example of a custom query using QueryBuilder
      *
      * @param string $destination
@@ -64,7 +72,7 @@ class TravelRepository extends ServiceEntityRepository
     {
         // Implement logic to find most popular destinations
         return $this->createQueryBuilder('t')
-            ->select('t.destination', 't.departureLocation', 't.startDate', 't.endDate', 't.description', 't.price', 't.imagePath',
+            ->select('t.id','t.destination', 't.departureLocation', 't.startDate', 't.endDate', 't.description', 't.price', 't.imagePath',
                 '(SELECT COUNT(b.id) FROM App\Entity\Booking b WHERE b.travel = t.id) AS bookingCount')
             ->orderBy('bookingCount', 'DESC')
             ->setMaxResults($limit)
