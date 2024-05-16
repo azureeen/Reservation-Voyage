@@ -26,3 +26,8 @@ services:
     App\Validator\Constraints\PasswordRequirementsValidator:
         tags: [ validator.constraint_validator ]
 
+    # explicitly configure the service
+    App\EventListener\ExceptionListener:
+        arguments: [ '@twig' ]
+        tags:
+            - { name: kernel.event_listener, event: kernel.exception, method: onKernelException }

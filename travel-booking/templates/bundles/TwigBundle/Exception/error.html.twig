@@ -1,0 +1,65 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Error{% endblock %}
+
+{% block header %} {% endblock %}
+
+{% block body %}
+    <style>
+        body, html {
+            height: 100%;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        .error-container {
+            text-align: center;
+        }
+
+        .error-code {
+            font-size: 15rem;
+            font-weight: bold;
+            letter-spacing: -0.5rem;
+            line-height: 1;
+        }
+
+        .back-home {
+            background-color: #F9E4BC; /* Luxury gold color */
+            color: #1a202c; /* Tailwind's gray-900 color */
+            padding: 1rem 2rem;
+            text-decoration: none;
+            border-radius: 0.5rem;
+            transition: background-color 0.3s ease;
+            display: inline-block;
+            margin-top: 2rem;
+        }
+
+        .language-links {
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+        }
+
+        .language-links a {
+            margin-left: 1rem;
+            color: #1a202c; /* Tailwind's gray-900 color */
+            text-decoration: none;
+        }
+
+        .language-links a:hover {
+            text-decoration: underline;
+        }
+    </style>
+
+    <div class="error-container">
+        <div class="error-code">ERROR</div>
+        <a href="{{ path('home') }}" class="back-home">Back to Home</a>
+    </div>
+{% endblock %}
+
+
+{% block footer %} {% endblock %}
+
