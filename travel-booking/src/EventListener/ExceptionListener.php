@@ -7,15 +7,32 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\HttpExceptionInterface;
 use Twig\Environment;
 
+/**
+ * Listener that handles exceptions thrown during the kernel request cycle.
+ */
 class ExceptionListener
 {
+    /**
+     * @var Environment
+     */
     private $twig;
 
+    /**
+     * ExceptionListener constructor.
+     *
+     * @param Environment $twig
+     */
     public function __construct(Environment $twig)
     {
         $this->twig = $twig;
     }
 
+    /**
+     * Handles kernel exceptions and sets a custom response.
+     *
+     * @param ExceptionEvent $event
+     * @return void
+     */
     public function onKernelException(ExceptionEvent $event): void
     {
         $exception = $event->getThrowable();
@@ -46,6 +63,12 @@ class ExceptionListener
         $event->setResponse($response);
     }
 
+    /**
+     * Selects the appropriate Twig template based on the status code.
+     *
+     * @param int $statusCode
+     * @return string
+     */
     private function selectTemplate(int $statusCode): string
     {
         switch ($statusCode) {

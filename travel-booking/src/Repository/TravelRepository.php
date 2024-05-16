@@ -8,25 +8,37 @@ use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
+ * Repository class for the Travel entity.
+ *
  * @extends ServiceEntityRepository<Travel>
  */
 class TravelRepository extends ServiceEntityRepository
 {
+    /**
+     * TravelRepository constructor.
+     *
+     * @param ManagerRegistry $registry
+     */
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Travel::class);
     }
 
     /**
+     * Find all travels sorted by start date.
+     *
      * @return Travel[] Returns an array of Travel objects
      */
-    public function findAllTravels()
+    public function findAllTravels(): array
     {
         return $this->findBy([], ['startDate' => 'ASC']);
     }
 
     /**
-     * @return Travel|null Finds a single Travel by the given destination
+     * Find a single travel by the given destination.
+     *
+     * @param string $destination
+     * @return Travel|null Returns a single Travel object or null
      */
     public function findOneByDestination(string $destination): ?Travel
     {
@@ -34,18 +46,21 @@ class TravelRepository extends ServiceEntityRepository
     }
 
     /**
-     * @return Travel|null Finds a single Travel by the given id
+     * Find a single travel by the given ID.
+     *
+     * @param int $id
+     * @return Travel|null Returns a single Travel object or null
      */
-    public function findTravelById($id) {
+    public function findTravelById(int $id): ?Travel
+    {
         return $this->findOneBy(['id' => $id]);
     }
 
-
     /**
-     * Example of a custom query using QueryBuilder
+     * Find travels by the given destination using QueryBuilder.
      *
      * @param string $destination
-     * @return Travel[]
+     * @return Travel[] Returns an array of Travel objects
      */
     public function findTravelsByDestination(string $destination): array
     {
@@ -57,10 +72,14 @@ class TravelRepository extends ServiceEntityRepository
         return $qb->getQuery()->getResult();
     }
 
-    public function findLowPriceDeals($limit = 5)
+    /**
+     * Find travels with the lowest prices.
+     *
+     * @param int $limit
+     * @return Travel[] Returns an array of Travel objects
+     */
+    public function findLowPriceDeals(int $limit = 5): array
     {
-        // Implement logic to find low price deals
-        // For example:
         return $this->createQueryBuilder('t')
             ->orderBy('t.price', 'ASC')
             ->setMaxResults($limit)
@@ -68,16 +87,20 @@ class TravelRepository extends ServiceEntityRepository
             ->getResult();
     }
 
-    public function findMostPopularDestinations($limit = 5)
+    /**
+     * Find the most popular travel destinations based on booking count.
+     *
+     * @param int $limit
+     * @return array Returns an array of Travel objects with booking counts
+     */
+    public function findMostPopularDestinations(int $limit = 5): array
     {
-        // Implement logic to find most popular destinations
         return $this->createQueryBuilder('t')
-            ->select('t.id','t.destination', 't.departureLocation', 't.startDate', 't.endDate', 't.description', 't.price', 't.imagePath',
+            ->select('t.id', 't.destination', 't.departureLocation', 't.startDate', 't.endDate', 't.description', 't.price', 't.imagePath',
                 '(SELECT COUNT(b.id) FROM App\Entity\Booking b WHERE b.travel = t.id) AS bookingCount')
             ->orderBy('bookingCount', 'DESC')
             ->setMaxResults($limit)
             ->getQuery()
             ->getResult();
     }
-
 }

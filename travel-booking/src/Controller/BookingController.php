@@ -15,13 +15,39 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Security;
 use Psr\Log\LoggerInterface;
 
+/**
+ * Controller responsible for handling booking-related actions.
+ */
 class BookingController extends AbstractController
 {
+    /**
+     * @var UserRepository
+     */
     private $userRepository;
+
+    /**
+     * @var EntityManagerInterface
+     */
     private $entityManager;
+
+    /**
+     * @var Security
+     */
     private $security;
+
+    /**
+     * @var LoggerInterface
+     */
     private $logger;
 
+    /**
+     * BookingController constructor.
+     *
+     * @param UserRepository $userRepository
+     * @param EntityManagerInterface $entityManager
+     * @param Security $security
+     * @param LoggerInterface $logger
+     */
     public function __construct(
         UserRepository $userRepository,
         EntityManagerInterface $entityManager,
@@ -34,6 +60,13 @@ class BookingController extends AbstractController
         $this->logger = $logger;
     }
 
+    /**
+     * Displays the home page with booking form and travel information.
+     *
+     * @param Request $request
+     * @param TravelRepository $travelRepository
+     * @return Response
+     */
     #[Route('/', name: 'home')]
     public function index(Request $request, TravelRepository $travelRepository): Response
     {
@@ -73,6 +106,14 @@ class BookingController extends AbstractController
         ]);
     }
 
+    /**
+     * Displays the travel details and handles booking of the travel.
+     *
+     * @param Request $request
+     * @param TravelRepository $travelRepository
+     * @param int $id
+     * @return Response
+     */
     #[Route('/travel/{id}', name: 'view_travel', methods: ['GET', 'POST'])]
     public function viewTravel(Request $request, TravelRepository $travelRepository, int $id): Response
     {
@@ -122,6 +163,11 @@ class BookingController extends AbstractController
         ]);
     }
 
+    /**
+     * Displays the list of travels booked by the authenticated user.
+     *
+     * @return Response
+     */
     #[Route('/my-travels', name: 'my_travels')]
     public function myTravels(): Response
     {
@@ -138,6 +184,11 @@ class BookingController extends AbstractController
         ]);
     }
 
+    /**
+     * Retrieves the authenticated user.
+     *
+     * @return User|null
+     */
     private function getAuthenticatedUser()
     {
         $user = $this->security->getUser();
