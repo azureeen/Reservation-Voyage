@@ -72,6 +72,8 @@ class TravelRepository extends ServiceEntityRepository
         return $qb->getQuery()->getResult();
     }
 
+    // TODO : SQL Injection : Query Builder
+
     /**
      * Find travels with the lowest prices.
      *

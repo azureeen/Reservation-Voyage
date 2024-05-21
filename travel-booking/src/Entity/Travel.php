@@ -5,6 +5,8 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
+// TODO : SQL Injection : Doctrine ORM
+
 /**
  * Represents a travel entity in the application.
  */
